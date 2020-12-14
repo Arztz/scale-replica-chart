@@ -16,7 +16,7 @@ spec:
             - kubectl scale -n 
             - --{{ $namespaces }} 
             - deployment --replicas=
-            - --{{ .Values.scaleUp.replicaCount }} 
+            - {{ .Values.scaleUp.replicaCount }} 
             - --all
 {{- end }}            
             - touch /tmp/healthy
