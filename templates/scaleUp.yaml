@@ -13,7 +13,11 @@ spec:
           - args:
             - -c
 {{- range $namespaces := .Values.namespaces }}
-            - kubectl scale -n {{ $namespaces.name }} deployment --replicas={{ .Values.scaleUp.replicaCount }} --all
+            - kubectl scale -n 
+            - {{ $namespaces.name }} 
+            - deployment --replicas=
+            - {{ .Values.scaleUp.replicaCount }} 
+            - --all
 {{- end }}            
             - touch /tmp/healthy
             command:
