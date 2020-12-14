@@ -1,0 +1,52 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "scale-replica.fullname" . }}-scale-down
+spec:
+  concurrencyPolicy: Allow
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+        spec:
+          containers:
+          - args:
+            - -c
+{{- range $namespaces := .Values.namespaces }}
+            - kubectl scale -n {{ $namespaces.name }} deployment --replicas={{ .Values.scaleDown.replicaCount }} --all
+{{- end }}            
+            - touch /tmp/healthy
+            command:
+            - /bin/sh
+            image: roffe/kubectl
+            imagePullPolicy: Always
+            livenessProbe:
+              exec:
+                command:
+                - cat
+                - /tmp/healthy
+              failureThreshold: 3
+              initialDelaySeconds: 10
+              periodSeconds: 2
+              successThreshold: 1
+              timeoutSeconds: 2
+            name: {{ include "scale-replica.fullname" . }}-scale-down
+            readinessProbe:
+              exec:
+                command:
+                - cat
+                - /tmp/healthy
+              failureThreshold: 3
+              initialDelaySeconds: 10
+              periodSeconds: 2
+              successThreshold: 2
+              timeoutSeconds: 2
+            stdin: true
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            tty: true
+          dnsPolicy: ClusterFirst
+          restartPolicy: Never
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+  schedule: {{ .Values.scaleDown.cronjob }}
