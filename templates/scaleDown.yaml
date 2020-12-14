@@ -15,9 +15,9 @@ spec:
 {{- $replicaCount := .Values.scaleDown.replicaCount -}}
 {{- range $namespaces := .Values.namespaces }}
             - kubectl scale  
+            - --replicas={{ $replicaCount }} 
             - -n {{ $namespaces }} 
             - deployment 
-            - --replicas={{ $replicaCount }} 
             - --all
 {{- end }}            
             - touch /tmp/healthy
