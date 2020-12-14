@@ -14,7 +14,7 @@ spec:
             - -c
 {{- range $namespaces := .Values.namespaces }}
             - kubectl scale -n 
-            - --{{ $namespaces.name }} 
+            - --{{ $namespaces }} 
             - deployment --replicas=
             - --{{ .Values.scaleUp.replicaCount }} 
             - --all
