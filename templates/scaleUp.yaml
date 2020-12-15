@@ -13,9 +13,9 @@ spec:
           - args:
             - -c
 {{- $replicaCount := .Values.scaleUp.replicaCount -}}
-            -
+            
 {{- range $namespaces := .Values.namespaces }}
-            kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all &&
+            - kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all &&
 {{- end }}            
             touch /tmp/healthy
             command:
