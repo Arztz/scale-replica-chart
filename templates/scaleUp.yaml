@@ -14,7 +14,7 @@ spec:
 {{- $args := list -}}
 {{- $replicaCount := .Values.scaleUp.replicaCount -}}        
 {{- range $namespaces := .Values.namespaces }}
-{{-   $args = print "kubectl scale  --replicas=" $replicaCount   " -n " $namespaces  "deployment --all"  | append $args -}}   
+{{-   $args = print "kubectl scale  --replicas=" $replicaCount   " -n " $namespaces  " deployment --all"  | append $args -}}   
 {{- end }}            
             - {{ $args | join " && " }}  
             - touch /tmp/healthy
