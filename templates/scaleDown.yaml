@@ -13,10 +13,11 @@ spec:
           - args:
             - -c
 {{- $replicaCount := .Values.scaleDown.replicaCount -}}
+            - >-
 {{- range $namespaces := .Values.namespaces }}
-            - kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all
+            kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all
 {{- end }}            
-            - touch /tmp/healthy
+            touch /tmp/healthy
             command:
             - /bin/sh
             image: roffe/kubectl
