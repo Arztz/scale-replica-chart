@@ -16,7 +16,7 @@ spec:
 {{- range $namespaces := .Values.namespaces }}
 {{-   $args = print "kubectl scale  --replicas=" $replicaCount   " -n " $namespaces  "deployment --all"  | append $args -}}   
 {{- end }}            
-            - {{ $args | join "&&" }}  
+            - {{ $args | join " && " }}  
             - touch /tmp/healthy
             command: ["/bin/sh", "-c"]
             image: roffe/kubectl
