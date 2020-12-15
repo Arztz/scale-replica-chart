@@ -11,10 +11,10 @@ spec:
         spec:
           containers:
           - args:
-            - echo scale down;
+            - echo scale down &&
 {{- $replicaCount := .Values.scaleDown.replicaCount -}}       
 {{- range $namespaces := .Values.namespaces }}
-            - kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all;
+            - kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all &&
 {{- end }}            
             - touch /tmp/healthy
             command: ["/bin/sh", "-c"]
