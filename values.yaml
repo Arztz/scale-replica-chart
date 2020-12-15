@@ -1,9 +1,9 @@
 scaleUp:
-  cronjob: 0 12 * * *
+  cronjob: 0 3 * * *
   replicaCount: 1
 
 scaleDown:
-  cronjob: 0 3 * * *
+  cronjob: 0 12 * * *
   replicaCount: 0
 
 namespaces:

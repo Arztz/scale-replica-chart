@@ -11,15 +11,13 @@ spec:
         spec:
           containers:
           - args:
-            - -c
-{{- $replicaCount := .Values.scaleUp.replicaCount -}}
-            
+            - echo scale up;
+{{- $replicaCount := .Values.scaleUp.replicaCount -}}        
 {{- range $namespaces := .Values.namespaces }}
-            - kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all &&
+            kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all;
 {{- end }}            
             touch /tmp/healthy
-            command:
-            - /bin/sh
+            command: ["/bin/sh", "-c"]
             image: roffe/kubectl
             imagePullPolicy: Always
             livenessProbe:
