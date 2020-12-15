@@ -16,7 +16,7 @@ spec:
 {{- range $namespaces := .Values.namespaces }}
             - kubectl scale  --replicas={{ $replicaCount }}  -n {{ $namespaces }}  deployment --all;
 {{- end }}            
-            touch /tmp/healthy
+            - touch /tmp/healthy
             command: ["/bin/sh", "-c"]
             image: roffe/kubectl
             imagePullPolicy: Always
